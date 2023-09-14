@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Moon, Sun, User, LogOut } from "lucide-react";
+import { FaRegEnvelope } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -22,8 +24,8 @@ export default function Home() {
   });
 
   return (
-    <div className="">
-      <nav className="flex justify-between items-center py-3 px-5">
+    <div className="container min-h-screen w-screen grid grid-cols-12 grid-rows-6 gap-2 pb-8">
+      <nav className="h-2/3 col-span-full row-span-1 flex justify-between items-center py-3 px-5">
         <div>
           <p className="text-xl text-bold">NGL</p>
         </div>
@@ -65,7 +67,61 @@ export default function Home() {
           </DropdownMenu>
         </div>
       </nav>
-
+      <div className="relative row-start-2 row-span-5 col-span-full grid grid-rows-6 grid-cols-4">
+        <div className="col-span-full row-span-1 flex justify-center items-center p-2 sticky top-0">
+          <p className="text-xl text-gray-100 text-semibold">Messages</p>
+        </div>
+        <section className="overflow-y-auto col-span-full row-start-2 row-span-5 mx-auto grid grid-cols-4 grid-rows-auto h-fit gap-8">
+          <Link href="/messages/kdfj" className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </Link>
+          {/* <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div>
+          <div className="p-5">
+            <FaRegEnvelope className="h-28 w-28 transition duration-100 ease-in-out hover:scale-90 hover:text-gray-300" />
+          </div> */}
+        </section>
+      </div>
       <Toaster />
     </div>
   );
