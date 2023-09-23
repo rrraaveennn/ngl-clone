@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { signIn, useSession } from "next-auth/react";
 
 const formSchema = z.object({
   username: z
@@ -41,6 +42,8 @@ const formSchema = z.object({
 });
 
 export default function Home() {
+  const { data: session, status } = useSession();
+
   const router = useRouter();
   const { setTheme } = useTheme();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,15 +54,22 @@ export default function Home() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // console.debug(values);
-    router.push("/home");
+    console.debug(values);
+    signIn("credentials", {
+      // id: "domain-login",
+      redirect: false,
+      ...values,
+    });
+    router.push("/");
   }
 
   return (
     <main className="w-screen m-0 p-0 min-h-screen">
       <nav className="flex justify-between items-center py-3 px-5">
         <div>
-          <p className="text-xl text-bold">NGL</p>
+          <p className="text-xl text-bold">
+            {status === "authenticated" ? session?.user.id : "NGL"}
+          </p>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
