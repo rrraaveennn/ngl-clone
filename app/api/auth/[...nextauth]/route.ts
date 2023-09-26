@@ -2,11 +2,9 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth/next";
 import { NextAuthOptions } from "next-auth";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/libs/db";
 
-const prisma = new PrismaClient();
-
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma) as any,
     providers: [
         CredentialsProvider({
@@ -49,22 +47,6 @@ const authOptions: NextAuthOptions = {
                 return data;
             }
         }),
-        // CredentialsProvider({
-        //     id: "domain-register",
-        //     name: "Sign up",
-        //     credentials: {
-        //         username: { label: "Username", type: "text" }
-        //     },
-        //     async authorize(credentials) {
-        //         const user = {
-        //             username: credentials?.username
-        //         };
-
-        //         return {
-        //             ...user
-        //         };
-        //     }
-        // })
     ],
     secret: process.env.NEXTAUTH_SECRET,
     session: {
@@ -73,21 +55,31 @@ const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id;
+                let u = user as any;
+                token.id = u.id;
+                token.username = u.username;
+                token.role = u.role;
             }
 
-            console.log("jwt callback: ", { token, user })
+            console.log("jwt callback: ", { token, user });
 
             return token;
         },
         async session({ session, token }) { 
-            if (session?.user) {
-                session.user.id = token.id;
-            }
 
-            console.log("session callback: ", { session, token });
+            let sessionData = {
+                ...session,
+                user: {
+                    ...session.user,
+                    id: token.id,
+                    username: token.username,
+                    role: token.role
+                }
+            };
 
-            return session;
+            console.log("session callback: ", { token, session });
+
+            return sessionData;
         }
     },
     debug: process.env.NODE_ENV === 'development',

@@ -53,8 +53,19 @@ export default function Home() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.debug(values);
+  async function onSubmitSignUp(values: z.infer<typeof formSchema>) {
+    await fetch("http://localhost:3000/api/auth/register", {
+      body: JSON.stringify({
+        username: values.username,
+      }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  function onSubmitSignIn(values: z.infer<typeof formSchema>) {
     signIn("credentials", {
       // id: "domain-login",
       redirect: false,
@@ -111,7 +122,7 @@ export default function Home() {
               <CardContent>
                 <Form {...form}>
                   <form
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={form.handleSubmit(onSubmitSignIn)}
                     className="flex flex-col justify-center items-start gap-4"
                   >
                     <FormField
@@ -148,7 +159,7 @@ export default function Home() {
               <CardContent>
                 <Form {...form}>
                   <form
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={form.handleSubmit(onSubmitSignUp)}
                     className="flex flex-col justify-center items-start gap-4 w-full"
                   >
                     <FormField
