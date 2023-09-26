@@ -79,7 +79,7 @@ export default function Home() {
       <nav className="flex justify-between items-center py-3 px-5">
         <div>
           <p className="text-xl text-bold">
-            {status === "authenticated" ? session?.user.id : "NGL"}
+            {status === "authenticated" ? session?.user.username : "NGL"}
           </p>
         </div>
         <DropdownMenu>

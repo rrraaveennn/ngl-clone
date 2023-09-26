@@ -33,6 +33,13 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Toaster, toast } from "react-hot-toast";
+import { useSession } from "next-auth/react";
+
+interface Params {
+  params: {
+    username: string;
+  };
+}
 
 const formSchema = z.object({
   message: z.string().min(1, {
@@ -40,7 +47,9 @@ const formSchema = z.object({
   }),
 });
 
-export default function Message() {
+export default function Message({ params }: Params) {
+  const { data: session, status } = useSession();
+
   const { setTheme } = useTheme();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,8 +58,19 @@ export default function Message() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     toast.success("Message sent.");
+    await fetch("http://localhost:3000/api/messages", {
+      method: "POST",
+      body: JSON.stringify({
+        body: values.message,
+        authorId: session?.user.id,
+        toUsername: params.username,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   return (

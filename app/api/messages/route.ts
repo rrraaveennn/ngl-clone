@@ -30,6 +30,8 @@ async function GET(req: NextRequest, ) {
             }
         });
 
+        console.log(messages)
+
         return NextResponse.json({
             messages
         }, {
@@ -68,6 +70,7 @@ async function POST(req: NextRequest) {
             }
         });
 
+        console.log("receiver: ", receiver);
 
         const data = await prisma.message.create({
             data: {
@@ -84,6 +87,8 @@ async function POST(req: NextRequest) {
                 }
             }
         });
+
+        console.log("new message: ", data);
 
         return NextResponse.json({
             ...data
